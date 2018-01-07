@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Product;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -16,14 +17,22 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $query = $em->getRepository(Product::class)
-            ->createQueryBuilder('p')
-            ->getQuery();
+        $builder = $em->getRepository(Product::class)
+            ->createQueryBuilder('p');
+
+        if ($request->query->getInt('category')) {
+            $builder->andWhere('p.category = :id')
+                ->setParameter('id', $request->query->getInt('_category'));
+        }
+
+        if ($request->query->get('product')) {
+            $builder->andWhere('p.name LIKE :name')
+                ->setParameter('name', '%' . $request->query->get('_product') . '%');
+        }
 
         $paginator  = $this->get('knp_paginator');
-
         $pagination = $paginator->paginate(
-            $query,
+            $builder->getQuery(),
             $request->query->getInt('page', 1)/*page number*/,
             8
         );
@@ -32,11 +41,32 @@ class ProductController extends Controller
     }
 
     /**
-     * @Route("/product", name="show_product")
+     * @Route("/product/{id}", name="show_product")
      * @return Response
      */
-    public function show()
+    public function show(Product $product)
     {
-        return $this->render('product/show.html.twig', ['products' => []]);
+        return $this->render('product/show.html.twig', ['product' => $product]);
+    }
+
+    /**
+     * @return Response
+     */
+    public function categories($template)
+    {
+        $stack = $this->get('request_stack');
+        $masterRequest = $stack->getMasterRequest();
+
+        $em = $this->getDoctrine()->getManager();
+        $categories = $em->getRepository(Product::class)
+            ->createQueryBuilder('p')
+            ->select('c.id, c.name')
+            ->addSelect('COUNT(c) as total')
+            ->leftJoin('p.category', 'c')
+            ->groupBy('p.category')
+            ->getQuery()
+            ->getResult();
+
+        return $this->render('product/' . $template . '.html.twig', ['categories' => $categories, 'masterRequest' => $masterRequest]);
     }
 }

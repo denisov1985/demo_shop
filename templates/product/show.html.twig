@@ -1,9 +1,100 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block content %}
     <div class="row">
-        <div class="col-lg-10">
-            <h1>Super stuff</h1>
+        <div class="col-lg-6">
+            <img src="/images/products/{{ product.imageName }}" alt="..." class="img-responsive">
+        </div>
+
+        <div class="col-lg-6">
+            <p class="lead">{{ product.name }}</p>
+            <p>
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <a href="#">&nbsp; 2 reviews</a>
+            <hr/>
+            </p>
+
+            <p class="lead">Price ${{ product.price }}</p>
+
+            <div class="input-group col-lg-5">
+                <input type="number" class="form-control" value="1"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-warning" type="button"><span class="glyphicon glyphicon-shopping-cart"
+                                                                        aria-hidden="true"></span> Add to cart!</button>
+                </span>
+            </div>
+
+            <hr/>
         </div>
     </div>
+
+    <div>
+
+        <!-- Nav tabs -->
+        <ul id="myTabs" class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Description</a>
+            </li>
+            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Review</a>
+            </li>
+            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab"
+                                       data-toggle="tab">Related</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div style="padding: 18px" role="tabpanel" class="tab-pane active" id="home">
+                <p >{{ product.description }}</p>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <td width="30%" class="text-right text-primary"><strong>Color:</strong></td>
+                                <td>White</td>
+                            </tr>
+
+                            <tr>
+                                <td width="30%" class="text-right text-primary"><strong>Size:</strong></td>
+                                <td>M, XL, L, S</td>
+                            </tr>
+
+                            <tr>
+                                <td width="30%" class="text-right text-primary"><strong>Material:</strong></td>
+                                <td>Glass, Silver</td>
+                            </tr>
+
+                            <tr>
+                                <td width="30%" class="text-right text-primary"><strong>RAM:</strong></td>
+                                <td>2 GB</td>
+                            </tr>
+
+                            <tr>
+                                <td width="30%" class="text-right text-primary"><strong>Matrix:</strong></td>
+                                <td>IPS</td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="profile">In development</div>
+            <div role="tabpanel" class="tab-pane" id="messages">In development</div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block srcipts %}
+    <script>
+        $('#myTabs a').click(function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        })
+    </script>
 {% endblock %}

@@ -1,0 +1,6 @@
+<select name="category" class="form-control">
+    <option value="0">All categories</option>
+    {% for category in categories %}
+        <option {% if masterRequest.get('_category') == category.id %}selected="selected"{% endif %} value="{{ category.id }}">{{ app.request.get('category') }} {{ category.name }}</option>
+    {% endfor %}
+</select>

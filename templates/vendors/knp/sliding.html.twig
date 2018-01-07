@@ -1,7 +1,8 @@
 {# default Sliding pagination control implementation #}
 
 {% if pageCount > 1 %}
-    <ul class="pagination">
+<div class="text-center">
+    <ul class="pagination pagination-lg">
         {% if previous is defined %}
         <li>
             <a href="{{ path(route, query|merge({(pageParameterName): previous})) }}" aria-label="Previous">
@@ -28,4 +29,5 @@
         {% endif %}
 
     </ul>
+</div>
 {% endif %}

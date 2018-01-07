@@ -1,0 +1,8 @@
+<div class="panel panel-default">
+    <div class="panel-heading">Clothes</div>
+    <ul class="list-group">
+        {% for category in categories %}
+            <li class="list-group-item"><span class="badge">{{ category.total }}</span> <a href="/?_category={{ category.id }}">{{ category.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>

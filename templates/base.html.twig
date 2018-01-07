@@ -23,7 +23,7 @@
 <!-- Navbar start-->
 <nav class="navbar navbar-default">
     <div class="container">
-        <div class="navbar-header"><a href="#" class="navbar-brand">
+        <div class="navbar-header"><a href="/" class="navbar-brand">
                 <img alt="Brand" height="20"
                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAB+0lEQVR4AcyYg5LkUBhG+1X2PdZGaW3btm3btm3bHttWrPomd1r/2Jn/VJ02TpxcH4CQ/dsuazWgzbIdrm9dZVd4pBz4zx2igTaFHrhvjneVXNHCSqIlFEjiwMyyyOBilRgGSqLNF1jnwNQdIvAt48C3IlBmHCiLQHC2zoHDu6zG1iXn6+y62ScxY9AODO6w0pvAqf23oSE4joOfH6OxfMoRnoGUm+de8wykbFt6wZtA07QwtNOqKh3ZbS3Wzz2F+1c/QJY0UCJ/J3kXWJfv7VhxCRRV1jGw7XI+gcO7rEFFRvdYxydwcPsVsC0bQdKScngt4iUTD4Fy/8p7PoHzRu1DclwmgmiqgUXjD3oTKHbAt869qdJ7l98jNTEblPTkXMwetpvnftA0LLHb4X8kiY9Kx6Q+W7wJtG0HR7fdrtYz+x7iya0vkEtUULIzCjC21wY+W/GYXusRH5kGytWTLxgEEhePPwhKYb7EK3BQuxWwTBuUkd3X8goUn6fMHLyTT+DCsQdAEXNzSMeVPAJHdF2DmH8poCREp3uwm7HsGq9J9q69iuunX6EgrwQVObjpBt8z6rdPfvE8kiiyhsvHnomrQx6BxYUyYiNS8f75H1w4/ISepDZLoDhNJ9cdNUquhRsv+6EP9oNH7Iff2A9g8h8CLt1gH0Qf9NMQAFnO60BJFQe0AAAAAElFTkSuQmCC"
                      width="20"></a>
@@ -31,15 +31,16 @@
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-            <form class="navbar-form navbar-left">
-                <div class="form-group"><input class="form-control" placeholder="Search"></div>
-                <div class="form-group"><select class="form-control">
-                        <option>All categories</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select></div>
+            <form action="/" method="GET" class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input value="{{ app.request.get('_product') }}" name="product" class="form-control"
+                           placeholder="Search">
+                </div>
+                <div class="form-group">
+                    {{ render(controller(
+                    'App\\Controller\\ProductController::categories',  {template: 'categories-filter'}
+                    )) }}
+                </div>
                 <button type="submit" class="btn btn-default">Go</button>
             </form>
 
@@ -56,54 +57,16 @@
     </div>
 </nav>
 <!-- Navbar end-->
-
-<div class="container" style="margin-bottom: 2rem">
-    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-        </ol>
-
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                <img src="/images/promo1.jpg" alt="...">
-            </div>
-            <div class="item">
-                <img src="/images/promo2.jpg" alt="...">
-            </div>
-
-            <div class="item">
-                <img src="/images/promo3.jpg" alt="...">
-            </div>
-        </div>
-
-        <!-- Controls -->
-        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-</div>
+{% block promo %}{% endblock %}
 
 <!-- Content start-->
 <div class="container">
     <div class="row">
         <div class="col-lg-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">Clothes</div>
-                <ul class="list-group">
-                    <li class="list-group-item"><span class="badge">14</span> Cras justo odio</li>
-                    <li class="list-group-item"><span class="badge">2</span> Dapibus ac facilisis in</li>
-                    <li class="list-group-item"><span class="badge">1</span> Morbi leo risus</li>
-                </ul>
-            </div>
+            {{ render(controller(
+            'App\\Controller\\ProductController::categories',  {template: 'sidebar'}
+            )) }}
+
 
             <div class="panel panel-default">
                 <div class="panel-heading">Gadgets</div>
@@ -116,6 +79,15 @@
 
         </div>
         <div class="col-lg-9">
+
+            {% block breadcrumbs %}
+                <ol class="breadcrumb">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Library</a></li>
+                    <li class="active">Data</li>
+                </ol>
+            {% endblock %}
+
             {% block content %}{% endblock %}
         </div>
     </div>
@@ -128,5 +100,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+
+{% block scripts %}{% endblock %}
+
 </body>
 </html>

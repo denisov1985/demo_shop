@@ -7,4 +7,7 @@ easy_admin:
                     - { property: 'name' }
                     - { property: 'description' }
                     - { property: 'price' }
+                    - { property: 'category' }
                     - { property: 'imageFile', type: 'vich_image' }
+        Category:
+            class: App\Entity\Category
