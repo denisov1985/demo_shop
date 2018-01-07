@@ -5,6 +5,7 @@
         "php": "^7.1.3",
         "ext-iconv": "*",
         "javiereguiluz/easyadmin-bundle": "^1.17",
+        "knplabs/knp-paginator-bundle": "^2.7",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/console": "^4.0",
         "symfony/flex": "^1.0",
@@ -12,7 +13,8 @@
         "symfony/lts": "^4@dev",
         "symfony/maker-bundle": "^1.0",
         "symfony/orm-pack": "^1.0",
-        "symfony/yaml": "^4.0"
+        "symfony/yaml": "^4.0",
+        "vich/uploader-bundle": "^1.8"
     },
     "require-dev": {
         "symfony/dotenv": "^4.0",
@@ -59,7 +61,7 @@
     "extra": {
         "symfony": {
             "id": "01C303HFN4R7N24PYTN26CHVH0",
-            "allow-contrib": false
+            "allow-contrib": true
         }
     }
 }
