@@ -13,6 +13,22 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
+    /**
+     * Get categories
+     */
+    public function getCategories()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('c.id, c.name')
+            ->addSelect('COUNT(c) as total')
+            ->leftJoin('p.category', 'c')
+            ->groupBy('p.category')
+            ->getQuery()
+            ->useQueryCache(true)    // here
+            ->useResultCache(true)
+            ->getResult();
+    }
+
     /*
     public function findBySomething($value)
     {

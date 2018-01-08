@@ -48,25 +48,4 @@ class ProductController extends Controller
     {
         return $this->render('product/show.html.twig', ['product' => $product]);
     }
-
-    /**
-     * @return Response
-     */
-    public function categories($template)
-    {
-        $stack = $this->get('request_stack');
-        $masterRequest = $stack->getMasterRequest();
-
-        $em = $this->getDoctrine()->getManager();
-        $categories = $em->getRepository(Product::class)
-            ->createQueryBuilder('p')
-            ->select('c.id, c.name')
-            ->addSelect('COUNT(c) as total')
-            ->leftJoin('p.category', 'c')
-            ->groupBy('p.category')
-            ->getQuery()
-            ->getResult();
-
-        return $this->render('product/' . $template . '.html.twig', ['categories' => $categories, 'masterRequest' => $masterRequest]);
-    }
 }

@@ -13,16 +13,13 @@ class OrderRepository extends ServiceEntityRepository
         parent::__construct($registry, Order::class);
     }
 
-    /*
-    public function findBySomething($value)
+
+    public function findBySession($session)
     {
         return $this->createQueryBuilder('o')
-            ->where('o.something = :value')->setParameter('value', $value)
+            ->where('o.session = :value')->setParameter('value', $session)
             ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getSingleResult();
     }
-    */
 }

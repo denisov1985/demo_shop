@@ -37,9 +37,12 @@
                            placeholder="Search">
                 </div>
                 <div class="form-group">
-                    {{ render(controller(
-                    'App\\Controller\\ProductController::categories',  {template: 'categories-filter'}
-                    )) }}
+                    <select name="category" class="form-control">
+                        <option value="0">All categories</option>
+                        {% for category in get_categories() %}
+                            <option {% if app.request.get('_category') == category.id %}selected="selected"{% endif %} value="{{ category.id }}">{{ app.request.get('category') }} {{ category.name }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-default">Go</button>
             </form>
@@ -50,12 +53,13 @@
                 <li><a href="#">Contact</a></li>
             </ul>
 
-            <button type="button" class="btn btn-warning navbar-btn navbar-right"><span
-                        class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Cart (0)
-            </button>
+            <a href="{{ path('cart') }}" class="btn btn-warning navbar-btn navbar-right"><span
+                        class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Cart ({{ get_orders_count() }})
+            </a>
         </div>
     </div>
 </nav>
+
 <!-- Navbar end-->
 {% block promo %}{% endblock %}
 
@@ -63,9 +67,14 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-3">
-            {{ render(controller(
-            'App\\Controller\\ProductController::categories',  {template: 'sidebar'}
-            )) }}
+            <div class="panel panel-default">
+                <div class="panel-heading">Clothes</div>
+                <ul class="list-group">
+                    {% for category in get_categories() %}
+                        <li class="list-group-item"><span class="badge">{{ category.total }}</span> <a href="/?_category={{ category.id }}">{{ category.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
 
 
             <div class="panel panel-default">
