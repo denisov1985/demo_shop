@@ -18,10 +18,10 @@ class CartController extends Controller
      */
     public function index(SessionInterface $session)
     {
-        $session = $this->get('session');
-        $session->start();
+        $order = $this->_getOrder();
+
         // replace this line with your own code!
-        return $this->render('cart/index.html.twig');
+        return $this->render('cart/index.html.twig', ['order' => $order]);
     }
 
     /**
@@ -31,6 +31,21 @@ class CartController extends Controller
      */
     public function add(Request $request, $id)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $order = $this->_getOrder();
+        $product = $em->getRepository(Product::class)->find($id);
+
+        $order->addProduct($product);
+        $em->persist($order);
+        $em->flush();
+
+        return $this->redirect(
+            $request->headers->get('referer')
+        );
+    }
+
+    private function _getOrder() {
         $em = $this->getDoctrine()->getManager();
 
         $session = $this->get('session');
@@ -50,15 +65,6 @@ class CartController extends Controller
             $em->persist($order);
             $em->flush();
         }
-
-        $product = $em->getRepository(Product::class)->find($id);
-
-        $order->addProduct($product);
-        $em->persist($order);
-        $em->flush();
-
-        return $this->redirect(
-            $request->headers->get('referer')
-        );
+        return $order;
     }
 }

@@ -10,5 +10,17 @@
             <th>Quantity</th>
             <th>Total</th>
         </thead>
+        <tbody>
+            {% for product in order.products %}
+                <tr>
+                    <td>
+                        <img width="100" height="100" src="/images/products/{{ product.imageName }}">
+                    </td>
+                    <td>{{ product.name }}</td>
+                    <td><input type="text"></td>
+                    <td>{{ product.price }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
 {% endblock %}
