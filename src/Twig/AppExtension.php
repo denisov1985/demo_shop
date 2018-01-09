@@ -43,6 +43,10 @@ class AppExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * Get orders count
+     * @return mixed
+     */
     public function getOrdersCount()
     {
         /** @var EntityManager $em */
